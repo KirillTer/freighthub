@@ -1,5 +1,4 @@
-import React from 'react'
-import {compose, lifecycle} from 'recompose';
+import React, { useEffect } from 'react'
 import { connect } from 'react-redux';
 import * as R from 'ramda'
 
@@ -56,7 +55,11 @@ const renderContent = (phone, editNameAction) => {
     )
 }
 
-const Phone = ({phone, editNameAction}) => (
+const Phone = ({phone, editNameAction, fetchPhoneById, params}) => {
+  useEffect(() => {
+    fetchPhoneById(params.id)
+  }, [])
+  return (
   <div className='view-container'>
     <div className='container'>
       <div className='row'>
@@ -66,25 +69,14 @@ const Phone = ({phone, editNameAction}) => (
       </div>
     </div>
   </div>
-)
+  )
+}
 
-export default compose(
-    connect((state: AppState) => {
-        return ({
-            phone: getPhoneByIdSelector(state, state.phonePage.id)
-        });
-    }, {
-        fetchPhoneById,
-        editNameAction
-    }),
-  
-    lifecycle({
-      componentDidMount() {
-        const {
-            fetchPhoneById,
-            params
-        } = this.props
-        fetchPhoneById(params.id)
-      }
-    })
-  )(Phone)
+export default connect((state: AppState) => {
+return ({
+    phone: getPhoneByIdSelector(state, state.phonePage.id)
+});
+}, {
+    fetchPhoneById,
+    editNameAction
+})(Phone)

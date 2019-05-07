@@ -15,22 +15,11 @@ export const fetchPhones = () => async dispatch => {
     }
 }
 
-export const loadPrev = (page) => async (dispatch) => {
+export const loadNext = (page) => async (dispatch) => {
     dispatch({type: LOAD_MORE_PHONES_START})
 
     try {
         const phones = await loadMorePhonesApi(page)
-        dispatch({type: LOAD_MORE_PHONES_SUCCESS, payload: phones})
-    } catch (err) {
-        dispatch({type: LOAD_MORE_PHONES_FAILURE, payload: err, error: true})
-    }
-}
-
-export const loadNext = () => async (dispatch) => {
-    dispatch({type: LOAD_MORE_PHONES_START})
-
-    try {
-        const phones = await loadMorePhonesApi(2)
         dispatch({type: LOAD_MORE_PHONES_SUCCESS, payload: phones})
     } catch (err) {
         dispatch({type: LOAD_MORE_PHONES_FAILURE, payload: err, error: true})

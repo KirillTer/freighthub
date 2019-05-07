@@ -7,7 +7,6 @@ export const fetchItemsApi = async () => {
     return body
 }
   
-
 export const loadMorePhonesApi = async(page) => {
     const {body} = await request.get(
         `http://localhost:3000/shipments?_page=${page}&_limit=20`

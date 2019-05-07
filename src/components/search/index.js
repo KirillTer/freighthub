@@ -1,5 +1,5 @@
 import React from 'react'
-import {compose, withStateHandlers} from 'recompose';
+import {withStateHandlers} from 'recompose';
 import {connect} from 'react-redux';
 import {searchPhone} from '../../actions/'
 
@@ -35,10 +35,9 @@ const Search = withStateHandlers(
     )
 })
 
-export default compose(
-    connect((state: AppState) => {
-        return {}
-    }, {
-        searchPhone
-    }),
-)(Search)
+export default connect(
+(state: AppState) => {
+    return {}
+}, {
+    searchPhone
+})(Search)

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux';
 import {Link} from 'react-router'
 
-import {fetchPhones, loadNext, loadPrev} from '../../actions/'
+import {fetchPhones, loadNext} from '../../actions/'
 import {getPhonesSelector} from '../../selectors'
 import Search from '../../components/search'
 
@@ -30,12 +30,12 @@ const Phones = ({phones, loadNext, fetchPhones}) => {
   }, [])
   const loadNextClick = () => {
     setPage(page+1)
-    loadNext(page)
+    loadNext(page+1)
   }
   const loadPrevClick = () => {
     if (page > 1) {
       setPage(page-1)
-      loadNext(page)
+      loadNext(page-1)
     }
   }
   return (
@@ -70,6 +70,5 @@ export default connect((state: AppState, ownProps) => {
     });
 }, {
     fetchPhones,
-    loadNext,
-    loadPrev
+    loadNext
 })(Phones)
