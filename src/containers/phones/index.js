@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { connect } from 'react-redux';
 import {Link} from 'react-router'
 
-import {fetchPhones, loadNext} from '../../actions/'
-import {getPhonesSelector} from '../../selectors'
+import {fetchPhones, loadNext, changePage} from '../../actions/'
+import {getPhonesSelector, getCurrentPageSelector} from '../../selectors'
 import Search from '../../components/search'
 
 const renderPhone = (phone, index) => {
@@ -23,18 +23,17 @@ const renderPhone = (phone, index) => {
   )
 }
 
-const Phones = ({phones, loadNext, fetchPhones}) => {
-  const [page, setPage] = useState(1)
+const Phones = ({phones, page, loadNext, fetchPhones, changePage}) => {
   useEffect(() => {
-    fetchPhones()
+    loadNext(page)
   }, [])
   const loadNextClick = () => {
-    setPage(page+1)
+    changePage(page+1)
     loadNext(page+1)
   }
   const loadPrevClick = () => {
     if (page > 1) {
-      setPage(page-1)
+      changePage(page-1)
       loadNext(page-1)
     }
   }
@@ -46,18 +45,22 @@ const Phones = ({phones, loadNext, fetchPhones}) => {
         </div>
         <div className='row'>
           <div className='col-md-1 offset-md-5'>
+            <Link to={`/phonesPage/${page-1}`}>
               <button
               onClick={loadPrevClick}
               className='btn btn-primary loadMore'>
                   Prev
               </button>
+            </Link>
           </div>
           <div className='col-md-1'>
+            <Link to={`/phonesPage/${page+1}`}>
               <button
               onClick={loadNextClick}
               className='btn btn-primary loadMore'>
                   Next
               </button>
+            </Link>
           </div>
         </div>
     </div>
@@ -66,9 +69,11 @@ const Phones = ({phones, loadNext, fetchPhones}) => {
 
 export default connect((state: AppState, ownProps) => {
     return ({
-        phones: getPhonesSelector(state, ownProps)
+        phones: getPhonesSelector(state, ownProps),
+        page: getCurrentPageSelector(state)
     });
 }, {
     fetchPhones,
-    loadNext
+    loadNext,
+    changePage
 })(Phones)

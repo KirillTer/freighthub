@@ -1,5 +1,7 @@
 import * as R from 'ramda'
 
+export const getCurrentPageSelector = state => state.phonesPage.currentPage
+
 export const getPhoneByIdSelector = (state, id) => R.prop(id, state.phones)
 
 export const getPhonesSelector = (state, ownProps) => {

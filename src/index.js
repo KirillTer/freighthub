@@ -22,7 +22,7 @@ ReactDOM.render(
     <Provider store={store}>
         <Router history={history}>
             <Route component={Layout}>
-                <Route path='/' component={Phones} />
+                <Route path='/phonesPage/:currentPage' component={Phones} />
                 <Route path='/phones/:id' component={Phone} />
             </Route>
         </Router>

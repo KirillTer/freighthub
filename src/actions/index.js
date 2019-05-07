@@ -1,8 +1,15 @@
 import {FEATCH_PHONES_START, FEATCH_PHONES_SUCCESS, FEATCH_PHONES_FAILURE,
     LOAD_MORE_PHONES_START, LOAD_MORE_PHONES_SUCCESS, LOAD_MORE_PHONES_FAILURE,
     FEATCH_PHONE_BY_ID_START, FEATCH_PHONE_BY_ID_SUCCESS, FEATCH_PHONE_BY_ID_FAILURE,
-    SEARCH_PHONE, EDIT_NAME} from './actionTypes'
+    SEARCH_PHONE, EDIT_NAME, CHANGE_PAGE} from './actionTypes'
 import {fetchItemsApi, loadMorePhonesApi, fetchPhoneByIdApi} from '../api/'
+
+export const changePage = (page) => dispatch => {
+    dispatch({
+      type: CHANGE_PAGE,
+      payload: page
+    })
+}
 
 export const fetchPhones = () => async dispatch => {
     dispatch({type: FEATCH_PHONES_START})
