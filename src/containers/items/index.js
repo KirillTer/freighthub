@@ -44,7 +44,7 @@ const Items = ({items, page, loadNext, changePage}) => {
             {items.map((item, index) => renderItem(item, index))}
         </div>
         <div className='row'>
-          <div className='col-md-1 offset-md-5'>
+          <div className='col-md-1 offset-md-4'>
             <Link to={`/itemsPage/${page-1}`}>
               <button
               onClick={loadPrevClick}
@@ -52,6 +52,9 @@ const Items = ({items, page, loadNext, changePage}) => {
                   Prev
               </button>
             </Link>
+          </div>
+          <div className='col-md-1'>
+            Page # {page}
           </div>
           <div className='col-md-1'>
             <Link to={`/itemsPage/${page+1}`}>
