@@ -1,5 +1,5 @@
 import * as R from 'ramda'
-import {FEATCH_PHONES_SUCCESS, LOAD_MORE_PHONES_SUCCESS, SEARCH_PHONE, CHANGE_PAGE} from '../actions/actionTypes'
+import {LOAD_MORE_ITEMS_SUCCESS, SEARCH_ITEM, CHANGE_PAGE} from '../actions/actionTypes'
 
 const initialState = {
     currentPage: 1,
@@ -13,15 +13,11 @@ export default (state = initialState, {type, payload}) => {
             return R.merge(state, {
                 currentPage: payload
             })
-        case FEATCH_PHONES_SUCCESS:
+        case LOAD_MORE_ITEMS_SUCCESS:
             return R.merge(state, {
                 ids: R.pluck('id', payload)
             })
-        case LOAD_MORE_PHONES_SUCCESS:
-            return R.merge(state, {
-                ids: R.pluck('id', payload)
-            })
-        case SEARCH_PHONE:
+        case SEARCH_ITEM:
             return R.merge(state, {
                 search: payload
             })

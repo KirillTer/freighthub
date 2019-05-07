@@ -2,28 +2,28 @@ import React, { useEffect } from 'react'
 import { connect } from 'react-redux';
 import {Link} from 'react-router'
 
-import {fetchPhones, loadNext, changePage} from '../../actions/'
-import {getPhonesSelector, getCurrentPageSelector} from '../../selectors'
+import {loadNext, changePage} from '../../actions'
+import {getItemsSelector, getCurrentPageSelector} from '../../selectors'
 import Search from '../../components/search'
 
-const renderPhone = (phone, index) => {
+const renderItem = (item, index) => {
   return (
     <div className='col-lg-12 book-list' key={index}>
       <div className='thumbnail'>
         <div className='caption'>
           <h4>
-            <Link to={`/phones/${phone.id}`}>
-              {phone.name}
+            <Link to={`/items/${item.id}`}>
+              {item.name}
             </Link>
           </h4>
-          <p>{phone.destination}</p>
+          <p>{item.destination}</p>
         </div>
       </div>
     </div>
   )
 }
 
-const Phones = ({phones, page, loadNext, fetchPhones, changePage}) => {
+const Items = ({items, page, loadNext, changePage}) => {
   useEffect(() => {
     loadNext(page)
   }, [])
@@ -41,11 +41,11 @@ const Phones = ({phones, page, loadNext, fetchPhones, changePage}) => {
     <div>
       <Search />
         <div className='books row'>
-            {phones.map((phone, index) => renderPhone(phone, index))}
+            {items.map((item, index) => renderItem(item, index))}
         </div>
         <div className='row'>
           <div className='col-md-1 offset-md-5'>
-            <Link to={`/phonesPage/${page-1}`}>
+            <Link to={`/itemsPage/${page-1}`}>
               <button
               onClick={loadPrevClick}
               className='btn btn-primary loadMore'>
@@ -54,7 +54,7 @@ const Phones = ({phones, page, loadNext, fetchPhones, changePage}) => {
             </Link>
           </div>
           <div className='col-md-1'>
-            <Link to={`/phonesPage/${page+1}`}>
+            <Link to={`/itemsPage/${page+1}`}>
               <button
               onClick={loadNextClick}
               className='btn btn-primary loadMore'>
@@ -69,11 +69,10 @@ const Phones = ({phones, page, loadNext, fetchPhones, changePage}) => {
 
 export default connect((state: AppState, ownProps) => {
     return ({
-        phones: getPhonesSelector(state, ownProps),
+        items: getItemsSelector(state, ownProps),
         page: getCurrentPageSelector(state)
     });
 }, {
-    fetchPhones,
     loadNext,
     changePage
-})(Phones)
+})(Items)

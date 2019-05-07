@@ -2,10 +2,10 @@ import React, { useEffect } from 'react'
 import { connect } from 'react-redux';
 import * as R from 'ramda'
 
-import {fetchPhoneById, editNameAction} from '../../actions/'
-import {getPhoneByIdSelector} from '../../selectors'
+import {fetchItemById, editNameAction} from '../../actions'
+import {getItemByIdSelector} from '../../selectors'
 
-const renderFields = (phone) => {
+const renderFields = (item) => {
     const columnFields = R.compose(
         R.toPairs,
         R.pick([
@@ -17,7 +17,7 @@ const renderFields = (phone) => {
           'status',
           'userId'
         ])
-      )(phone)
+      )(item)
     return columnFields.map(([key, value]) => (
     <div className='column' key={key}>
         <div className='ab-details-title'>
@@ -30,7 +30,7 @@ const renderFields = (phone) => {
     ))
 }
 
-const renderContent = (phone, editNameAction) => {
+const renderContent = (item, editNameAction) => {
   const editName = () => {
     console.log('edit click')
     editNameAction()
@@ -39,32 +39,32 @@ const renderContent = (phone, editNameAction) => {
       <div className='thumbnail'>
           <div className='row'>
             <div className='col-md-10 offset-md-1'>
-                {renderFields(phone)}
+                {renderFields(item)}
             </div>
           </div>
           <div className='caption-full'>
-            <h4>{phone.name}</h4>
+            <h4>{item.name}</h4>
             <button
             onClick={editName}
             className='btn btn-primary'>
                 Edit
             </button>
-            <p>{phone.destination}</p>
+            <p>{item.destination}</p>
           </div>
       </div>
     )
 }
 
-const Phone = ({phone, editNameAction, fetchPhoneById, params}) => {
+const Item = ({item, editNameAction, fetchItemById, params}) => {
   useEffect(() => {
-    fetchPhoneById(params.id)
+    fetchItemById(params.id)
   }, [])
   return (
   <div className='view-container'>
     <div className='container'>
       <div className='row'>
         <div className='col-md-10 offset-md-1'>
-          {phone && renderContent(phone, editNameAction)}
+          {item && renderContent(item, editNameAction)}
         </div>
       </div>
     </div>
@@ -74,9 +74,9 @@ const Phone = ({phone, editNameAction, fetchPhoneById, params}) => {
 
 export default connect((state: AppState) => {
 return ({
-    phone: getPhoneByIdSelector(state, state.phonePage.id)
+    item: getItemByIdSelector(state, state.itemPage.id)
 });
 }, {
-    fetchPhoneById,
+    fetchItemById,
     editNameAction
-})(Phone)
+})(Item)

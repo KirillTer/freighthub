@@ -1,12 +1,12 @@
 import React from 'react'
 import {withStateHandlers} from 'recompose';
 import {connect} from 'react-redux';
-import {searchPhone} from '../../actions/'
+import {searchItem} from '../../actions/'
 
-const handleSubmit = (event, value, searchPhone) => {
+const handleSubmit = (event, value, searchItem) => {
     console.log('!', value)
     event.preventDefault();
-    searchPhone(value)
+    searchItem(value)
 }
 
 const Search = withStateHandlers(
@@ -18,12 +18,12 @@ const Search = withStateHandlers(
             value: val.target.value,
         }),
       })(
-    ({value, setValue, searchPhone}) => {
+    ({value, setValue, searchItem}) => {
     return (
         <div>
         <div className='well blosd'>
             <h3 className='lead'>Search</h3>
-            <form onSubmit={(event) => handleSubmit(event, value, searchPhone)}>
+            <form onSubmit={(event) => handleSubmit(event, value, searchItem)}>
                 <input
                 onChange={(event) => setValue(event)}
                 type='text'
@@ -39,5 +39,5 @@ export default connect(
 (state: AppState) => {
     return {}
 }, {
-    searchPhone
+    searchItem
 })(Search)

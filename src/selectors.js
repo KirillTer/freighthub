@@ -1,20 +1,20 @@
 import * as R from 'ramda'
 
-export const getCurrentPageSelector = state => state.phonesPage.currentPage
+export const getCurrentPageSelector = state => state.itemsPage.currentPage
 
-export const getPhoneByIdSelector = (state, id) => R.prop(id, state.phones)
+export const getItemByIdSelector = (state, id) => R.prop(id, state.items)
 
-export const getPhonesSelector = (state, ownProps) => {
+export const getItemsSelector = (state, ownProps) => {
 
     const applySearch = item => R.contains(
-      state.phonesPage.search,
+      state.itemsPage.search,
       R.prop('name', item)
     )
 
-    const phones = R.compose(
+    const items = R.compose(
       R.filter(applySearch),
-      R.map(id => getPhoneByIdSelector(state, id))
-    )(state.phonesPage.ids)
+      R.map(id => getItemByIdSelector(state, id))
+    )(state.itemsPage.ids)
   
-    return phones
+    return items
   }

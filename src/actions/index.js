@@ -1,8 +1,7 @@
-import {FEATCH_PHONES_START, FEATCH_PHONES_SUCCESS, FEATCH_PHONES_FAILURE,
-    LOAD_MORE_PHONES_START, LOAD_MORE_PHONES_SUCCESS, LOAD_MORE_PHONES_FAILURE,
-    FEATCH_PHONE_BY_ID_START, FEATCH_PHONE_BY_ID_SUCCESS, FEATCH_PHONE_BY_ID_FAILURE,
-    SEARCH_PHONE, EDIT_NAME, CHANGE_PAGE} from './actionTypes'
-import {fetchItemsApi, loadMorePhonesApi, fetchPhoneByIdApi} from '../api/'
+import {LOAD_MORE_ITEMS_START, LOAD_MORE_ITEMS_SUCCESS, LOAD_MORE_ITEMS_FAILURE,
+    FEATCH_ITEM_BY_ID_START, FEATCH_ITEM_BY_ID_SUCCESS, FEATCH_ITEM_BY_ID_FAILURE,
+    SEARCH_ITEM, EDIT_NAME, CHANGE_PAGE} from './actionTypes'
+import {loadItemsForPageApi, fetchItemByIdApi} from '../api/'
 
 export const changePage = (page) => dispatch => {
     dispatch({
@@ -11,42 +10,31 @@ export const changePage = (page) => dispatch => {
     })
 }
 
-export const fetchPhones = () => async dispatch => {
-    dispatch({type: FEATCH_PHONES_START})
-
-    try {
-        const phones = await fetchItemsApi()
-        dispatch({type: FEATCH_PHONES_SUCCESS, payload: phones})
-    } catch (err) {
-        dispatch({type: FEATCH_PHONES_FAILURE, payload: err, error: true})
-    }
-}
-
 export const loadNext = (page) => async (dispatch) => {
-    dispatch({type: LOAD_MORE_PHONES_START})
+    dispatch({type: LOAD_MORE_ITEMS_START})
 
     try {
-        const phones = await loadMorePhonesApi(page)
-        dispatch({type: LOAD_MORE_PHONES_SUCCESS, payload: phones})
+        const items = await loadItemsForPageApi(page)
+        dispatch({type: LOAD_MORE_ITEMS_SUCCESS, payload: items})
     } catch (err) {
-        dispatch({type: LOAD_MORE_PHONES_FAILURE, payload: err, error: true})
+        dispatch({type: LOAD_MORE_ITEMS_FAILURE, payload: err, error: true})
     }
 }
 
-export const fetchPhoneById = id => async dispatch => {
-    dispatch({type: FEATCH_PHONE_BY_ID_START})
+export const fetchItemById = id => async dispatch => {
+    dispatch({type: FEATCH_ITEM_BY_ID_START})
 
     try {
-        const phone = await fetchPhoneByIdApi(id)
-        dispatch({type: FEATCH_PHONE_BY_ID_SUCCESS, payload: phone})
+        const item = await fetchItemByIdApi(id)
+        dispatch({type: FEATCH_ITEM_BY_ID_SUCCESS, payload: item})
     } catch (err) {
-        dispatch({type: FEATCH_PHONE_BY_ID_FAILURE, payload: err, error: true})
+        dispatch({type: FEATCH_ITEM_BY_ID_FAILURE, payload: err, error: true})
     }
 }
 
-export const searchPhone = (text) => dispatch => {
+export const searchItem = (text) => dispatch => {
     dispatch({
-      type: SEARCH_PHONE,
+      type: SEARCH_ITEM,
       payload: text
     })
 }
