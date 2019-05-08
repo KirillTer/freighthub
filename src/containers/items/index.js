@@ -47,6 +47,7 @@ const Items = ({items, page, loadNext, changePage}) => {
           <div className='col-md-1 offset-md-4'>
             <Link to={`/itemsPage/${page-1}`}>
               <button
+              disabled={page<2}
               onClick={loadPrevClick}
               className='btn btn-primary loadMore'>
                   Prev
@@ -59,6 +60,7 @@ const Items = ({items, page, loadNext, changePage}) => {
           <div className='col-md-1'>
             <Link to={`/itemsPage/${page+1}`}>
               <button
+              disabled={page>1}
               onClick={loadNextClick}
               className='btn btn-primary loadMore'>
                   Next
