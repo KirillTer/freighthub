@@ -2,8 +2,8 @@ import React, { useEffect } from 'react'
 import { connect } from 'react-redux';
 import {Link} from 'react-router'
 
-import {loadNext, changePage} from '../../actions'
-import {getItemsSelector, getCurrentPageSelector} from '../../selectors'
+import {loadNext} from '../../store/actions'
+import {getItemsSelector, getCurrentPageSelector} from '../../store/selectors'
 import Search from '../../components/search'
 
 const renderItem = (item, index) => {
@@ -23,17 +23,15 @@ const renderItem = (item, index) => {
   )
 }
 
-const Items = ({items, page, loadNext, changePage}) => {
+const Items = ({items, page, loadNext}) => {
   useEffect(() => {
     loadNext(page)
   }, [])
   const loadNextClick = () => {
-    changePage(page+1)
     loadNext(page+1)
   }
   const loadPrevClick = () => {
     if (page > 1) {
-      changePage(page-1)
       loadNext(page-1)
     }
   }
@@ -78,6 +76,5 @@ export default connect((state: AppState, ownProps) => {
         page: getCurrentPageSelector(state)
     });
 }, {
-    loadNext,
-    changePage
+    loadNext
 })(Items)

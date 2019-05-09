@@ -1,14 +1,7 @@
 import {LOAD_MORE_ITEMS_START, LOAD_MORE_ITEMS_SUCCESS, LOAD_MORE_ITEMS_FAILURE,
     FEATCH_ITEM_BY_ID_START, FEATCH_ITEM_BY_ID_SUCCESS, FEATCH_ITEM_BY_ID_FAILURE,
     SEARCH_ITEM, EDIT_NAME, CHANGE_PAGE} from './actionTypes'
-import {loadItemsForPageApi, fetchItemByIdApi} from '../api/'
-
-export const changePage = (page) => dispatch => {
-    dispatch({
-      type: CHANGE_PAGE,
-      payload: page
-    })
-}
+import {loadItemsForPageApi, fetchItemByIdApi} from '../api'
 
 export const loadNext = (page) => async (dispatch) => {
     dispatch({type: LOAD_MORE_ITEMS_START})
@@ -16,6 +9,7 @@ export const loadNext = (page) => async (dispatch) => {
     try {
         const items = await loadItemsForPageApi(page)
         dispatch({type: LOAD_MORE_ITEMS_SUCCESS, payload: items})
+        dispatch({type: CHANGE_PAGE,payload: page})
     } catch (err) {
         dispatch({type: LOAD_MORE_ITEMS_FAILURE, payload: err, error: true})
     }
@@ -39,10 +33,10 @@ export const searchItem = (text) => dispatch => {
     })
 }
 
-export const editNameAction = () => dispatch => {
-    console.log('edit action')
+export const editNameAction = (id, name) => dispatch => {
+    console.log('edit action', id, name)
     dispatch({
       type: EDIT_NAME,
-      payload: 'some'
+      payload: {id: id, name: name}
     })
 }

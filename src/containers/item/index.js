@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux';
 import * as R from 'ramda'
 
-import {fetchItemById, editNameAction} from '../../actions'
-import {getItemByIdSelector} from '../../selectors'
+import {fetchItemById, editNameAction} from '../../store/actions'
+import {getItemByIdSelector} from '../../store/selectors'
 
 const renderFields = (item) => {
     const columnFields = R.compose(
@@ -30,10 +30,19 @@ const renderFields = (item) => {
     ))
 }
 
-const renderContent = (item, editNameAction) => {
-  const editName = () => {
-    console.log('edit click')
-    editNameAction()
+const renderContent = (item, editNameAction, edit, setEdit, name, setName) => {
+  const editName = (event) => {
+    event.preventDefault()
+    event.persist()
+    console.log('edit click - ', name)
+    if (edit) {
+      editNameAction(item.id, name)
+    }
+    setEdit(!edit)
+  }
+  const updateValue = (event) => {
+    setName(event.target.value)
+    console.log('input - ', name)
   }
   return (
       <div className='thumbnail'>
@@ -43,19 +52,28 @@ const renderContent = (item, editNameAction) => {
             </div>
           </div>
           <div className='caption-full'>
-            <h4>{item.name}</h4>
-            <button
-            onClick={editName}
-            className='btn btn-primary'>
-                Edit
-            </button>
-            <p>{item.destination}</p>
+              <form  className='col-md-10 row'>
+                {edit ?
+                  <input
+                    className='offset-md-1 border'
+                    onChange={(event) => updateValue(event)}
+                    placeholder={item.name}>
+                  </input> :
+                  <h4 className='offset-md-1'>{item.name}</h4>}
+                <button
+                onClick={(event) => editName(event)}
+                className='btn btn-primary offset-md-1'>
+                    {edit ? 'Save' : 'Edit'}
+                </button>
+              </form>
           </div>
       </div>
     )
 }
 
 const Item = ({item, editNameAction, fetchItemById, params}) => {
+  const [edit, setEdit] = useState(false)
+  const [name, setName] = useState('')
   useEffect(() => {
     fetchItemById(params.id)
   }, [])
@@ -64,7 +82,7 @@ const Item = ({item, editNameAction, fetchItemById, params}) => {
     <div className='container'>
       <div className='row'>
         <div className='col-md-10 offset-md-1'>
-          {item && renderContent(item, editNameAction)}
+          {item && renderContent(item, editNameAction, edit, setEdit, name, setName)}
         </div>
       </div>
     </div>

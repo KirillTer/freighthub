@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import {connect} from 'react-redux';
-import {searchItem} from '../../actions/'
+import {searchItem} from '../../store/actions'
 
 const handleSubmit = (event, value, searchItem) => {
     event.preventDefault();
@@ -29,8 +29,6 @@ const Search = ({searchItem}) => {
 }
 
 export default connect(
-(state: AppState) => {
-    return {}
-}, {
+() => {return {}}, {
     searchItem
 })(Search)

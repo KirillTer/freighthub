@@ -1,5 +1,5 @@
 import * as R from 'ramda'
-import {FEATCH_ITEM_BY_ID_SUCCESS} from '../actions/actionTypes'
+import {FEATCH_ITEM_BY_ID_SUCCESS} from '../store/actions/actionTypes'
 
 const initialState = {
     id: null
